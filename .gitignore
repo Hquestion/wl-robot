@@ -1,0 +1,11 @@
+.nuxt
+.output
+node_modules
+dist
+coverage
+*.log
+.env
+.env.*
+!.env.example
+storage/inbox/**
+!storage/inbox/.gitkeep

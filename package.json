@@ -1,0 +1,31 @@
+{
+  "name": "wl-robot",
+  "type": "module",
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "engines": {
+    "node": ">=23.0.0",
+    "npm": ">=10.9.0"
+  },
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "nuxt typecheck",
+    "prepare": "nuxt prepare"
+  },
+  "dependencies": {
+    "@wechatferry/agent": "^0.0.26",
+    "@wechatferry/core": "^0.0.26",
+    "nuxt": "^4.2.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.10.0",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.1.5"
+  }
+}
