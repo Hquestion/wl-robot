@@ -9,3 +9,5 @@ coverage
 !.env.example
 storage/inbox/**
 !storage/inbox/.gitkeep
+logs
+storage
