@@ -1,6 +1,7 @@
 import { WechatferryAgent } from '@wechatferry/agent'
 import { WechatMessageType } from '@wechatferry/core'
 import { archiveWechatMessage } from '../utils/message-archive'
+import { delay } from '../utils'
 
 export default defineNitroPlugin(() => {
   const config = useRuntimeConfig()
@@ -13,13 +14,20 @@ export default defineNitroPlugin(() => {
   const agent = new WechatferryAgent()
 
   agent.on('message', async (message) => {
+    console.log("++++++++++++++receive messages: ", JSON.stringify(message));
     try {
+      await delay(5);
       await archiveWechatMessage({
         message: message as unknown as Record<string, unknown>,
         messageTypes: WechatMessageType,
         inboxDir: config.robot.inboxDir,
         downloadTimeoutSeconds: config.robot.downloadTimeoutSeconds,
-        downloadFile: async () => agent.downloadFile(message, config.robot.downloadTimeoutSeconds),
+        downloadFile: async () => {
+          if (!message.extra) {
+            message.extra = message.thumb.replace(".jpg", ".mp4");
+          }
+          return agent.downloadFile(message, config.robot.downloadTimeoutSeconds);
+        },
       })
     }
     catch (error) {
@@ -28,5 +36,5 @@ export default defineNitroPlugin(() => {
   })
 
   agent.start()
-  console.info('[robot] WeChatFerry listener started.')
+  console.info('[robot] WeChatFerry listener started.');
 })
