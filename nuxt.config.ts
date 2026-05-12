@@ -8,6 +8,8 @@ export default defineNuxtConfig({
       enabled: process.env.ROBOT_ENABLED === 'true',
       inboxDir: process.env.ROBOT_INBOX_DIR || 'storage/inbox',
       downloadTimeoutSeconds: Number(process.env.ROBOT_DOWNLOAD_TIMEOUT_SECONDS || 30),
+      timezone: process.env.ROBOT_TIMEZONE || '',
+      scheduleTickSeconds: Number(process.env.ROBOT_SCHEDULE_TICK_SECONDS || 30),
     },
   },
   eslint: {

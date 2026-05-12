@@ -1,9 +1,10 @@
 import { WechatferryAgent } from '@wechatferry/agent'
 import { WechatMessageType } from '@wechatferry/core'
 import { archiveWechatMessage } from '../utils/message-archive'
+import { createRobotScheduler, loadRobotScheduleTasks } from '../utils/robot-scheduler'
 import { delay } from '../utils'
 
-export default defineNitroPlugin(() => {
+export default defineNitroPlugin((nitroApp) => {
   const config = useRuntimeConfig()
 
   if (!config.robot.enabled) {
@@ -36,5 +37,19 @@ export default defineNitroPlugin(() => {
   })
 
   agent.start()
-  console.info('[robot] WeChatFerry listener started.');
+  console.info('[robot] WeChatFerry listener started.')
+
+  const scheduler = createRobotScheduler({
+    sender: agent,
+    tasks: loadRobotScheduleTasks(),
+    tickSeconds: config.robot.scheduleTickSeconds,
+    defaultTimeZone: config.robot.timezone || undefined,
+  })
+
+  scheduler.start()
+
+  nitroApp.hooks.hook('close', () => {
+    scheduler.stop()
+    agent.stop()
+  })
 })
