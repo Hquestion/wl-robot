@@ -52,10 +52,10 @@ storage/inbox/YYYY-MM-DD/<timestamp>-<id>/
 
 实现方式：
 
-- 任务配置文件固定为 [server/config/robot-schedules.ts](/abs/path/D:/code/robot/wl-robot/server/config/robot-schedules.ts:1)
+- 任务配置文件固定为项目根目录 `robot-schedules.json`
 - 服务启动时加载任务配置并完成校验
 - 调度器常驻内存，按分钟匹配任务
-- 配置修改后需要重启服务生效，不支持热更新
+- 配置文件变更会在运行时自动刷新，无需重启服务
 
 ### 调度规则
 
@@ -74,39 +74,35 @@ storage/inbox/YYYY-MM-DD/<timestamp>-<id>/
 
 ### 配置位置
 
-在 [server/config/robot-schedules.ts](/abs/path/D:/code/robot/wl-robot/server/config/robot-schedules.ts:1) 中导出 `RobotScheduleTask[]`：
+在项目根目录的 `robot-schedules.json` 中配置任务数组：
 
-```ts
-import type { RobotScheduleTask } from '../utils/robot-schedule'
-
-const robotSchedules: RobotScheduleTask[] = [
+```json
+[
   {
-    id: 'weekly-reminder',
-    enabled: true,
-    roomId: '123456@chatroom',
-    message: '记得提交周报',
-    mentionAll: true,
-    schedule: {
-      type: 'weekly',
-      time: '18:00',
-      weekdays: [5],
-    },
+    "id": "weekly-reminder",
+    "enabled": true,
+    "roomId": "123456@chatroom",
+    "message": "记得提交周报",
+    "mentionAll": true,
+    "schedule": {
+      "type": "weekly",
+      "time": "18:00",
+      "weekdays": [5]
+    }
   },
   {
-    id: 'monthly-summary',
-    enabled: true,
-    roomId: '123456@chatroom',
-    message: '请同步本月总结',
-    mentionAll: false,
-    schedule: {
-      type: 'monthly',
-      time: '10:00',
-      daysOfMonth: [1],
-    },
-  },
+    "id": "monthly-summary",
+    "enabled": true,
+    "roomId": "123456@chatroom",
+    "message": "请同步本月总结",
+    "mentionAll": false,
+    "schedule": {
+      "type": "monthly",
+      "time": "10:00",
+      "daysOfMonth": [1]
+    }
+  }
 ]
-
-export default robotSchedules
 ```
 
 ### 任务字段
