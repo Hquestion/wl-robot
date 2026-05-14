@@ -88,7 +88,6 @@ export default defineNitroPlugin(async (nitroApp) => {
 
   agent.on('message', async (message) => {
     const receivedMessage = message as Parameters<typeof agent.downloadFile>[0]
-    console.log('++++++++++++++receive messages: ', JSON.stringify(message))
     try {
       await delay(5)
       await archiveWechatMessage({
